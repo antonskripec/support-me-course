@@ -1,52 +1,77 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { invalidData } from "@hookform/resolvers/class-validator/src/__tests__/__fixtures__/data.js";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PersonStandingIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-const formSchema = z.object({
-    email: z.email("Please enter a valid email address."),
-    accountType: z.enum(["personal", "company"]),
-    companyName: z.string().optional(),
-    numberOfEmployees: z.coerce.number().optional()
-}).superRefine((data, ctx) => {
-    if (data.accountType === "company" && !data.companyName) {
-        ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            path: ["companyName"],
-            message: "Company name is required for company accounts.",
-        });
-    }
-});
+const formSchema = z
+    .object({
+        email: z.email("Please enter a valid email address."),
+        accountType: z.enum(["personal", "company"]),
+        companyName: z.string().optional(),
+        numberOfEmployees: z.coerce.number().optional(),
+    })
+    .superRefine((data, ctx) => {
+        if (data.accountType === "company" && !data.companyName) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ["companyName"],
+                message: "Company name is required for company accounts.",
+            });
+        }
+
+        if (data.accountType === "company" && !data.numberOfEmployees) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ["numberOfEmployees"],
+                message: "Number of employees is required for company accounts.",
+            });
+        }
+    });
 
 export default function SignUpPage() {
-    const form = useForm<z.infer<typeof formSchema>>(
-        {
-            resolver: zodResolver(formSchema),
-            defaultValues: {
-                email: "",
-                accountType: undefined,
-                companyName: undefined,
-                numberOfEmployees: undefined,
-
-            }
-        }
-    );
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            email: "",
+            accountType: undefined,
+            companyName: undefined,
+            numberOfEmployees: undefined,
+        },
+    });
 
     const handleSubmit = (data: z.infer<typeof formSchema>) => {
         console.log("sign up submitted", data);
     };
 
     const accountType = form.watch("accountType");
-
 
     return (
         <>
@@ -55,9 +80,7 @@ export default function SignUpPage() {
             <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle>Sign Up</CardTitle>
-                    <CardDescription>
-                        Create a new SupportMe account
-                    </CardDescription>
+                    <CardDescription>Create a new SupportMe account</CardDescription>
                 </CardHeader>
 
                 <CardContent>
@@ -90,7 +113,10 @@ export default function SignUpPage() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Account Type</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
                                             <FormControl>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Select account type" />
@@ -107,7 +133,7 @@ export default function SignUpPage() {
                                 )}
                             />
 
-                            {accountType === "company" &&
+                            {accountType === "company" && (
                                 <>
                                     <FormField
                                         control={form.control}
@@ -116,10 +142,7 @@ export default function SignUpPage() {
                                             <FormItem>
                                                 <FormLabel>Company Name</FormLabel>
                                                 <FormControl>
-                                                    <Input
-                                                        placeholder="Company Name"
-                                                        {...field}
-                                                    />
+                                                    <Input placeholder="Company Name" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -144,7 +167,7 @@ export default function SignUpPage() {
                                         )}
                                     />
                                 </>
-                            }
+                            )}
 
                             <Button type="submit">Sign up</Button>
                         </form>
@@ -152,9 +175,7 @@ export default function SignUpPage() {
                 </CardContent>
 
                 <CardFooter className="justify-between">
-                    <small>
-                        Already have an account?
-                    </small>
+                    <small>Already have an account?</small>
 
                     <Button asChild variant="outline" size="sm">
                         <Link href="/login">Login</Link>
@@ -162,5 +183,5 @@ export default function SignUpPage() {
                 </CardFooter>
             </Card>
         </>
-    )
+    );
 }

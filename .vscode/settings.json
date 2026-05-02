@@ -8,6 +8,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "workbench.tree.indent": 16,
-  "workbench.tree.renderIndentGuides": "always"
+  "explorer.compactFolders": false,
+  "workbench.tree.indent": 20,
+  "workbench.tree.renderIndentGuides": "always",
+  "explorer.fileNesting.enabled": true
 }

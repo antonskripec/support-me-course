@@ -14,7 +14,7 @@ export default function DashboardLayout({ children }: Props)
 
                 <div className="overflow-auto py-2 px-4">
                     <h1 className="pb-4">
-                        Welcome back, John Doe!
+                        Welcome back, Anton!
                     </h1>
                     {children}
                 </div>

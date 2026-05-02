@@ -7,5 +7,7 @@
   "editor.tabSize": 4,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
-  }
+  },
+  "workbench.tree.indent": 16,
+  "workbench.tree.renderIndentGuides": "always"
 }

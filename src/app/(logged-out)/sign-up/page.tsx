@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { Checkbox } from "@/components/ui/checkbox";
 import
 {
     Card,
@@ -74,6 +75,11 @@ const formSchema = z
             .regex(/[a-z]/, "Password must contain at least one lowercase letter.")
             .regex(/[0-9]/, "Password must contain at least one number."),
         passwordConfirm: z.string(),
+        acceptTerms: z
+            .boolean()
+            .refine((value) => value === true, {
+                message: "You must accept the terms and conditions.",
+            }),
     })
     .superRefine((data, ctx) =>
     {
@@ -121,6 +127,7 @@ export default function SignUpPage()
                 numberOfEmployees: undefined,
                 password: "",
                 passwordConfirm: "",
+                acceptTerms: false,
             },
         });
 
@@ -306,6 +313,26 @@ export default function SignUpPage()
                                                 {...field}
                                             />
                                         </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* accept terms field */}
+                            <FormField
+                                control={form.control}
+                                name="acceptTerms"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <div className="flex items-center gap-2">
+                                            <FormControl>
+                                                <Checkbox
+                                                    checked={!!field.value}
+                                                    onCheckedChange={field.onChange}
+                                                />
+                                            </FormControl>
+                                            <FormLabel>I accept the terms and conditions</FormLabel>
+                                        </div>
                                         <FormMessage />
                                     </FormItem>
                                 )}

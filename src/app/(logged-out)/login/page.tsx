@@ -15,7 +15,8 @@ const formSchema = z.object({
     password: z.string().min(1, "Please enter your password.")
 })
 
-export default function LoginPage() {
+export default function LoginPage()
+{
     const form = useForm<z.infer<typeof formSchema>>(
         {
             resolver: zodResolver(formSchema),
@@ -26,7 +27,8 @@ export default function LoginPage() {
         }
     );
 
-    const handleSubmit = (data: z.infer<typeof formSchema>) => {
+    const handleSubmit = (data: z.infer<typeof formSchema>) =>
+    {
         console.log("login submitted", data);
     };
 
@@ -79,7 +81,7 @@ export default function LoginPage() {
                                         <FormLabel>Password</FormLabel>
                                         <FormControl>
                                             <Input type="password" {...field} />
-                                        </FormControl>                                        
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
@@ -92,7 +94,7 @@ export default function LoginPage() {
 
                 <CardFooter className="justify-between">
                     <small>
-                        Don't have an account?
+                        Don&apos;t have an account?
                     </small>
 
                     <Button asChild variant="outline" size="sm">

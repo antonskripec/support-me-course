@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import { PersonStandingIcon } from "lucide-react";
 import Link from "next/link";
 
-export default function LandingPage() {
+export default function LandingPage()
+{
     return (
         <>
             <h1 className="flex items-center gap-2">
@@ -18,7 +19,9 @@ export default function LandingPage() {
                 <Button asChild className="p-4">
                     <Link href="/login">LOG IN</Link>
                 </Button>
+
                 <small>or</small>
+
                 <Button variant="outline" asChild className="p-4">
                     <Link href="/sign-up">SIGN UP</Link>
                 </Button>

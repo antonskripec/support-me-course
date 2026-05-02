@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
+import
+{
     Card,
     CardContent,
     CardDescription,
@@ -9,7 +10,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import {
+import
+{
     Form,
     FormControl,
     FormField,
@@ -18,7 +20,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
+import
+{
     Select,
     SelectContent,
     SelectItem,
@@ -30,6 +33,7 @@ import { PersonStandingIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { da } from "zod/locales";
 
 const formSchema = z
     .object({
@@ -37,37 +41,52 @@ const formSchema = z
         accountType: z.enum(["personal", "company"]),
         companyName: z.string().optional(),
         numberOfEmployees: z.coerce.number().optional(),
+        dateOfBirth: z.date().refine((date) =>
+        {
+            const today = new Date();
+            return date <= today;
+        }, {
+            message: "Date of birth cannot be in the future.",
+        }),
     })
-    .superRefine((data, ctx) => {
-        if (data.accountType === "company" && !data.companyName) {
-            ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                path: ["companyName"],
-                message: "Company name is required for company accounts.",
-            });
+    .superRefine((data, ctx) =>
+    {
+        if (data.accountType === "company" && !data.companyName)
+        {
+            ctx.addIssue(
+                {
+                    code: z.ZodIssueCode.custom,
+                    path: ["companyName"],
+                    message: "Company name is required for company accounts.",
+                });
         }
 
-        if (data.accountType === "company" && !data.numberOfEmployees) {
-            ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                path: ["numberOfEmployees"],
-                message: "Number of employees is required for company accounts.",
-            });
+        if (data.accountType === "company" && (!data.numberOfEmployees || data.numberOfEmployees < 1))
+        {
+            ctx.addIssue(
+                {
+                    code: z.ZodIssueCode.custom,
+                    path: ["numberOfEmployees"],
+                    message: "Number of employees is required for company accounts.",
+                });
         }
     });
 
-export default function SignUpPage() {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: "",
-            accountType: undefined,
-            companyName: undefined,
-            numberOfEmployees: undefined,
-        },
-    });
+export default function SignUpPage()
+{
+    const form = useForm<z.infer<typeof formSchema>>(
+        {
+            resolver: zodResolver(formSchema),
+            defaultValues: {
+                email: "",
+                accountType: undefined,
+                companyName: undefined,
+                numberOfEmployees: undefined,
+            },
+        });
 
-    const handleSubmit = (data: z.infer<typeof formSchema>) => {
+    const handleSubmit = (data: z.infer<typeof formSchema>) =>
+    {
         console.log("sign up submitted", data);
     };
 

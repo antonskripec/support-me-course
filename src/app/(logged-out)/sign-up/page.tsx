@@ -109,7 +109,7 @@ export default function SignUpPage()
                             onSubmit={form.handleSubmit(handleSubmit)}
                             className="flex flex-col gap-4"
                         >
-                            -- email field ---
+                            {/* email     */}
                             <FormField
                                 control={form.control}
                                 name="email"
@@ -128,7 +128,7 @@ export default function SignUpPage()
                                 )}
                             />
 
-                            -- account type field ---
+                            {/* account type */}
                             <FormField
                                 control={form.control}
                                 name="accountType"
@@ -157,7 +157,7 @@ export default function SignUpPage()
 
                             {accountType === "company" && (
                                 <>
-                                    -- company name field ---
+                                    {/* company name field */}
                                     <FormField
                                         control={form.control}
                                         name="companyName"
@@ -172,7 +172,7 @@ export default function SignUpPage()
                                         )}
                                     />
 
-                                    -- number of employees field --
+                                    {/* number of employees field */}
                                     <FormField
                                         control={form.control}
                                         name="numberOfEmployees"

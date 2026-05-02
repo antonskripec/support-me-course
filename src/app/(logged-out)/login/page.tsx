@@ -51,7 +51,7 @@ export default function LoginPage()
                             onSubmit={form.handleSubmit(handleSubmit)}
                             className="flex flex-col gap-4"
                         >
-                            -- email field ---
+                            {/* email     */}
                             <FormField
                                 control={form.control}
                                 name="email"
@@ -75,7 +75,7 @@ export default function LoginPage()
                                 )}
                             />
 
-                            -- password field ---
+                            {/* password field */}
                             <FormField
                                 control={form.control}
                                 name="password"

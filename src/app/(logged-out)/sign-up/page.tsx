@@ -33,7 +33,20 @@ import { PersonStandingIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { da } from "zod/locales";
+
+function isOver18(date: Date)
+{
+    const today = new Date();
+    const age = today.getFullYear() - date.getFullYear();
+
+    if (age > 18) return true;
+    if (age < 18) return false;
+
+    if (today.getMonth() > date.getMonth()) return true;
+    if (today.getMonth() < date.getMonth()) return false;
+
+    return today.getDate() >= date.getDate();
+}
 
 const formSchema = z
     .object({
@@ -41,12 +54,8 @@ const formSchema = z
         accountType: z.enum(["personal", "company"]),
         companyName: z.string().optional(),
         numberOfEmployees: z.coerce.number().optional(),
-        dateOfBirth: z.date().refine((date) =>
-        {
-            const today = new Date();
-            return date <= today;
-        }, {
-            message: "Date of birth cannot be in the future.",
+        dateOfBirth: z.date().refine((date) => isOver18(date), {
+            message: "You must be at least 18 years old.",
         }),
     })
     .superRefine((data, ctx) =>

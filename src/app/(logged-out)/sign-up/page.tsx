@@ -66,6 +66,13 @@ const formSchema = z
         dateOfBirth: z.date().refine((date) => isOver18(date), {
             message: "You must be at least 18 years old.",
         }),
+        password: z
+            .string()
+            .min(8, "Password must be at least 8 characters.")
+            .regex(/[A-Z]/, "Password must contain at least one uppercase letter.")
+            .regex(/[a-z]/, "Password must contain at least one lowercase letter.")
+            .regex(/[0-9]/, "Password must contain at least one number."),
+        passwordConfirm: z.string(),
     })
     .superRefine((data, ctx) =>
     {
@@ -88,6 +95,16 @@ const formSchema = z
                     message: "Number of employees is required for company accounts.",
                 });
         }
+
+        if (data.password !== data.passwordConfirm)
+        {
+            ctx.addIssue(
+                {
+                    code: z.ZodIssueCode.custom,
+                    path: ["passwordConfirm"],
+                    message: "Passwords do not match.",
+                });
+        }
     });
 
 export default function SignUpPage()
@@ -101,6 +118,8 @@ export default function SignUpPage()
                 accountType: undefined,
                 companyName: undefined,
                 numberOfEmployees: undefined,
+                password: "",
+                passwordConfirm: "",
             },
         });
 
@@ -248,6 +267,44 @@ export default function SignUpPage()
                                                 />
                                             </PopoverContent>
                                         </Popover>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* password field */}
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Password</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="password"
+                                                placeholder="Password"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* confirm password field */}
+                            <FormField
+                                control={form.control}
+                                name="passwordConfirm"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Confirm Password</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="password"
+                                                placeholder="Confirm Password"
+                                                {...field}
+                                            />
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}

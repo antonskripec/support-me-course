@@ -13,16 +13,19 @@ const updateUserSchema = z
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },
-) {
+)
+{
   const { id } = await params;
   const userId = Number(id);
 
-  if (!Number.isInteger(userId)) {
+  if (!Number.isInteger(userId))
+  {
     return NextResponse.json({ error: "Invalid id" }, { status: 400 });
   }
 
   const user = users.find((u) => u.id === userId);
-  if (!user) {
+  if (!user)
+  {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
@@ -32,23 +35,27 @@ export async function GET(
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
-) {
+)
+{
   const { id } = await params;
   const userId = Number(id);
 
-  if (!Number.isInteger(userId)) {
+  if (!Number.isInteger(userId))
+  {
     return NextResponse.json({ error: "Invalid id" }, { status: 400 });
   }
 
   const user = users.find((u) => u.id === userId);
-  if (!user) {
+  if (!user)
+  {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
   const body = await request.json();
   const parsed = updateUserSchema.safeParse(body);
 
-  if (!parsed.success) {
+  if (!parsed.success)
+  {
     return NextResponse.json(
       { error: "Invalid input", issues: parsed.error.issues },
       { status: 400 },
@@ -62,16 +69,19 @@ export async function PATCH(
 export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },
-) {
+)
+{
   const { id } = await params;
   const userId = Number(id);
 
-  if (!Number.isInteger(userId)) {
+  if (!Number.isInteger(userId))
+  {
     return NextResponse.json({ error: "Invalid id" }, { status: 400 });
   }
 
   const index = users.findIndex((u) => u.id === userId);
-  if (index === -1) {
+  if (index === -1)
+  {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 

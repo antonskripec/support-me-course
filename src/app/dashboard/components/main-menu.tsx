@@ -25,6 +25,10 @@ export default function MainMenu()
                     Employees
                 </MenuItem>
 
+                <MenuItem href="/dashboard/users">
+                    Users
+                </MenuItem>
+
                 <MenuItem href="/dashboard/account">
                     Account
                 </MenuItem>

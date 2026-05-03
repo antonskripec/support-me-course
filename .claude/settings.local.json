@@ -2,6 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(npx shadcn@latest add form input --yes)"
+    ],
+    "additionalDirectories": [
+      "c:\\Udemy\\support-me-course\\src\\app\\dashboard\\users\\[id]"
     ]
   }
 }
